@@ -1,0 +1,57 @@
+{
+  "expo": {
+    "name": "VozMob",
+    "slug": "vozmob",
+    "version": "1.0.0",
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "experiments": {
+      "tsconfigPaths": true
+    },
+    "plugins": [
+      "expo-font",
+      "expo-router",
+      [
+        "@react-native-voice/voice",
+        {
+          "microphonePermission": "O aplicativo precisa do seu microfone para usar comandos de voz.",
+          "speechRecognitionPermission": "Precisamos de permissão para traduzir o que você diz sobre seu destino."
+        }
+      ]
+    ],
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "LSApplicationQueriesSchemes": [
+          "uber"
+        ],
+        "NSLocationWhenInUseUsageDescription": "Precisamos de sua localização para encaminha-la ao aplicativo da Uber na hora de pedir a corrida.",
+        "NSSpeechRecognitionUsageDescription": "Permite que o aplicativo converta a fala em texto para determinar o destino pretendido.",
+        "NSMicrophoneUsageDescription": "Permite que você dite os destinos através do seu microfone."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.gabriel_costa_luiz.myexpoapp"
+    }
+  }
+}
