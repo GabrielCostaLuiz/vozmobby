@@ -24,7 +24,11 @@
         {
           "android": {
             "enableJetifier": true,
-            "androidx": true
+            "androidx": true,
+            "newArchEnabled": false
+          },
+          "ios": {
+            "newArchEnabled": false
           }
         }
       ]

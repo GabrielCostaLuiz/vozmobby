@@ -145,7 +145,10 @@ export default function MainApp() {
             setIsListening(false);
             console.error('Voice Error:', e);
             if (e.error?.message?.includes('Native Module is null') || e.error?.message?.includes('not found')) {
-                Alert.alert('Alerta do Emulador (Expo Go)', 'Funcionalidade de reconhecimento de voz utiliza código nativo que exige a compilação paralela fóra do Expo Go. Pelo seu terminal, inicie o app usando: npx expo run:android');
+                Alert.alert(
+                    'Pacote Nativo Ausente',
+                    'O pacote de voz nativo não foi encontrado no seu aplicativo atual. Isso significa que:\n1. Você está rodando no Expo Go.\n2. OU seu último "Build" falhou e este APK antigo não tem as alterações.\n\nPor favor, rode o EAS Build novamente (agora que o erro do Gradle foi corrigido) e instale o novo APK.'
+                );
             }
         };
 
@@ -186,7 +189,10 @@ export default function MainApp() {
             await Voice.start('pt-BR');
         } catch (e: any) {
             console.error(e);
-            if (e?.message?.includes('null')) Alert.alert('Alerta', 'Você está rodando no Expo Go e precisa buildar nativamente rodando: npx expo run:android');
+            if (e?.message?.includes('null')) Alert.alert(
+                'Build Desatualizado',
+                'Instale a última versão do APK compilado pelo EAS para que os pacotes nativos de voz sejam acionados.'
+            );
         }
     };
 
