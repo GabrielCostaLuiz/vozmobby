@@ -12,6 +12,8 @@ import {
     Alert
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import ColorPicker from 'react-native-wheel-color-picker';
+
 
 export type DestinationType = {
     id?: number;
@@ -44,6 +46,8 @@ export default function DestinationModal({ visible, onClose, onSave, onDelete, i
     const [cepState, setCepState] = useState('');
     const [cepLoading, setCepLoading] = useState(false);
     const [alertConfig, setAlertConfig] = useState({ visible: false, title: '', message: '' });
+    const [showColorPicker, setShowColorPicker] = useState(false);
+    const [tempColor, setTempColor] = useState('');
 
     const [selectedColor, setSelectedColor] = useState(COLORS[0]);
     const [selectedIcon, setSelectedIcon] = useState(ICONS[0]);
@@ -129,6 +133,37 @@ export default function DestinationModal({ visible, onClose, onSave, onDelete, i
                             className="w-full bg-red-500 h-12 rounded-xl items-center justify-center"
                         >
                             <Text className="font-bold text-white text-lg font-display">ENTENDIDO</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+            {/* Color Picker Modal */}
+            <Modal visible={showColorPicker} transparent animationType="fade">
+                <View className="flex-1 justify-center items-center bg-black/80 px-4">
+                    <View className="bg-surface w-full rounded-3xl p-6 border border-stroke items-center">
+                        <Text className="text-white text-2xl font-bold font-display mb-6">Escolher Cor</Text>
+
+                        <View style={{ height: 350, width: '100%', marginBottom: 20 }}>
+                            <ColorPicker
+                                color={tempColor || selectedColor}
+                                onColorChangeComplete={setTempColor}
+                                thumbSize={40}
+                                sliderSize={40}
+                                noSnap={true}
+                                row={false}
+                                swatches={false}
+                            />
+                        </View>
+
+                        <TouchableOpacity
+                            onPress={() => {
+                                if (tempColor) setSelectedColor(tempColor);
+                                setShowColorPicker(false);
+                            }}
+                            className="w-full bg-primary h-14 rounded-xl items-center justify-center mt-4"
+                        >
+                            <Text className="font-bold text-black text-lg font-display">CONCLUIR</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -267,6 +302,19 @@ export default function DestinationModal({ visible, onClose, onSave, onDelete, i
                                         {selectedColor === color && <MaterialIcons name="check" size={24} color={color === '#CCFF00' ? 'black' : 'white'} />}
                                     </TouchableOpacity>
                                 ))}
+                                <TouchableOpacity
+                                    onPress={() => setShowColorPicker(true)}
+                                    className="rounded-full border-2 border-dashed border-gray-500 items-center justify-center bg-background-dark"
+                                    style={{ width: 56, height: 56 }}
+                                >
+                                    <View
+                                        className="w-8 h-8 rounded-full border border-white/20"
+                                        style={{ backgroundColor: selectedColor }}
+                                    />
+                                    <View className="absolute -bottom-1 -right-1 bg-primary rounded-full p-0.5">
+                                        <MaterialIcons name="colorize" size={14} color="black" />
+                                    </View>
+                                </TouchableOpacity>
                             </ScrollView>
                         </View>
                     </ScrollView>

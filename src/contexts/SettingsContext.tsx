@@ -20,10 +20,10 @@ const DEFAULT_SETTINGS: AppSettings = {
     voiceId: '',
     speechRate: 0.95,
     phrases: {
-        homeGreeting: 'Bem-vindo ao VozMob. Selecione o destino para onde deseja viajar.',
+        homeGreeting: 'Bem-vindo ao VozMobby. Selecione o destino para onde deseja viajar.',
         destinationSelectWait: 'Motorista, qual a sua rota?',
         voiceActivationPrompt: 'Pode falar, estou ouvindo.',
-        originScreenEnter: 'VozMob definido. Indo para: {destination}. De onde você vai sair?',
+        originScreenEnter: 'VozMobby definido. Indo para: {destination}. De onde você vai sair?',
         gpsSearching: 'Buscando sua localização via GPS e traçando a rota...',
         gpsDenied: 'O acesso ao GPS foi negado.',
         gpsFailed: 'Houve um erro técnico de localização. Tente novamente mais tarde.',

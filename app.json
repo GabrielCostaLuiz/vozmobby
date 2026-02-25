@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "VozMob",
-    "slug": "vozmob",
+    "name": "VozMobby",
+    "slug": "vozmobby",
     "version": "1.0.0",
     "web": {
       "favicon": "./assets/favicon.png"

@@ -251,7 +251,7 @@ export default function MainApp() {
                 <View className="flex-row justify-between items-start">
                     <View className="flex-col">
                         <Text className="text-gray-400 text-lg font-medium mb-1 font-display">Para onde vamos?</Text>
-                        <Text className="text-4xl font-bold tracking-tight text-[#CCFF00] font-display">VozMob</Text>
+                        <Text className="text-4xl font-bold tracking-tight text-[#CCFF00] font-display">VozMobby</Text>
                     </View>
 
                     <TouchableOpacity
