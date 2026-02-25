@@ -18,6 +18,14 @@
           "microphonePermission": "O aplicativo precisa do seu microfone para usar comandos de voz.",
           "speechRecognitionPermission": "Precisamos de permissão para traduzir o que você diz sobre seu destino."
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableJetifier": true
+          }
+        }
       ]
     ],
     "orientation": "portrait",
