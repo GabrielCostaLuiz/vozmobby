@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "VozMobby",
-    "slug": "vozmobby",
+    "slug": "vozmob",
     "version": "1.0.0",
     "web": {
       "favicon": "./assets/favicon.png"
@@ -70,6 +70,7 @@
       "eas": {
         "projectId": "5579cd9a-3d92-475a-b8f7-0f84fa3e1026"
       }
-    }
+    },
+    "owner": "gabriel_costa_luiz"
   }
 }
