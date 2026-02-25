@@ -23,7 +23,8 @@
         "expo-build-properties",
         {
           "android": {
-            "enableJetifier": true
+            "enableJetifier": true,
+            "androidx": true
           }
         }
       ]
