@@ -48,10 +48,15 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": [
-        "android.permission.RECORD_AUDIO",
         "android.permission.RECORD_AUDIO"
       ],
       "package": "com.gabriel_costa_luiz.myexpoapp"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "5579cd9a-3d92-475a-b8f7-0f84fa3e1026"
+      }
     }
   }
 }
