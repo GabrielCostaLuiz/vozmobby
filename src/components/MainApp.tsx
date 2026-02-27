@@ -18,7 +18,7 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { useRouter, useFocusEffect } from 'expo-router';
 import * as Location from 'expo-location';
 import * as Speech from 'expo-speech';
-import Voice, { SpeechResultsEvent, SpeechErrorEvent } from '@react-native-voice/voice';
+import Voice, { SpeechResultsEvent, SpeechErrorEvent } from '@dev-amirzubair/react-native-voice';
 import DestinationModal, { DestinationType } from './DestinationModal';
 import { useSettings } from '../contexts/SettingsContext';
 

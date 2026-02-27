@@ -13,7 +13,7 @@
       "expo-font",
       "expo-router",
       [
-        "@react-native-voice/voice",
+        "@dev-amirzubair/react-native-voice",
         {
           "microphonePermission": "O aplicativo precisa do seu microfone para usar comandos de voz.",
           "speechRecognitionPermission": "Precisamos de permissão para traduzir o que você diz sobre seu destino."
