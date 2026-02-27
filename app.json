@@ -25,10 +25,10 @@
           "android": {
             "enableJetifier": true,
             "androidx": true,
-            "newArchEnabled": false
+            "newArchEnabled": true
           },
           "ios": {
-            "newArchEnabled": false
+            "newArchEnabled": true
           }
         }
       ]
