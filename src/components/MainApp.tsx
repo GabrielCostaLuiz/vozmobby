@@ -8,7 +8,9 @@ import {
     Animated,
     Image,
     StatusBar,
-    Alert
+    Alert,
+    Platform,
+    PermissionsAndroid
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -62,6 +64,27 @@ export default function MainApp() {
                         rate: settings.speechRate,
                         voice: settings.voiceId || undefined
                     });
+                }
+
+                // Requer permissão de ÁUDIO para o Android
+                if (Platform.OS === 'android') {
+                    try {
+                        const granted = await PermissionsAndroid.request(
+                            PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+                            {
+                                title: 'Permissão de Microfone',
+                                message: 'O VozMobby precisa do microfone para ouvir o seu destino.',
+                                buttonNeutral: 'Depois',
+                                buttonNegative: 'Cancelar',
+                                buttonPositive: 'OK',
+                            }
+                        );
+                        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+                            console.warn('Microphone permission denied');
+                        }
+                    } catch (err) {
+                        console.warn(err);
+                    }
                 }
             })();
         }
@@ -180,9 +203,13 @@ export default function MainApp() {
 
     const startListening = async () => {
         try {
+            // Em vez de só inicializar, limpamos erros anteriores e setamos o estado explicitamente
+            setSpokenText('');
+            setIsListening(true);
             await Voice.start('pt-BR');
         } catch (e: any) {
             console.error('Start Listening Error:', e);
+            setIsListening(false);
         }
     };
 
