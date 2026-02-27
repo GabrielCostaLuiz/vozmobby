@@ -161,15 +161,43 @@ export default function MainApp() {
 
     /** Voice Listeners and Functions **/
     useEffect(() => {
-        Voice.onSpeechStart = () => setIsListening(true);
-        Voice.onSpeechEnd = () => setIsListening(false);
-        Voice.onSpeechResults = handleSpeechResults;
-        Voice.onSpeechError = (e: SpeechErrorEvent) => {
+        // Log initialization
+        console.log('[VOICE DEBUG] Initializing Voice Listeners');
+
+        Voice.onSpeechStart = (e: any) => {
+            console.log('[VOICE DEBUG] onSpeechStart CALLED!', e);
+            setIsListening(true);
+        };
+
+        Voice.onSpeechEnd = (e: any) => {
+            console.log('[VOICE DEBUG] onSpeechEnd CALLED!', e);
             setIsListening(false);
-            console.error('Voice Error:', e);
+        };
+
+        Voice.onSpeechResults = (e: SpeechResultsEvent) => {
+            console.log('[VOICE DEBUG] onSpeechResults CALLED!', e);
+            handleSpeechResults(e);
+        };
+
+        Voice.onSpeechError = (e: SpeechErrorEvent) => {
+            console.log('[VOICE DEBUG] onSpeechError CALLED!', e);
+            setIsListening(false);
+        };
+
+        // Aggressive debug listeners
+        Voice.onSpeechPartialResults = (e: any) => {
+            console.log('[VOICE DEBUG] onSpeechPartialResults CALLED! (partial text):', e.value);
+            if (e.value && e.value.length > 0) {
+                setSpokenText(e.value[0]);
+            }
+        };
+
+        Voice.onSpeechVolumeChanged = (e: any) => {
+            console.log('[VOICE DEBUG] MICROPHONE VOLUME CHANGED:', e.value);
         };
 
         return () => {
+            console.log('[VOICE DEBUG] Destroying Voice Listeners');
             Voice.destroy().then(Voice.removeAllListeners);
         };
     }, [router]);
@@ -203,22 +231,30 @@ export default function MainApp() {
 
     const startListening = async () => {
         try {
-            // Em vez de só inicializar, limpamos erros anteriores e setamos o estado explicitamente
+            console.log('[VOICE DEBUG] Action: Button PressIn (startListening)');
             setSpokenText('');
-            setIsListening(true);
+
+            // We DO NOT set 'isListening' here artificially.
+            // We only wait for the real C++ callback 'onSpeechStart' to fire.
+
             await Voice.start('pt-BR');
+            console.log('[VOICE DEBUG] Voice.start("pt-BR") completed successfully.');
         } catch (e: any) {
-            console.error('Start Listening Error:', e);
+            console.error('[VOICE DEBUG] Start Listening Failed:', e);
+            // Fallback just in case
             setIsListening(false);
         }
     };
 
     const stopListening = async () => {
         try {
+            console.log('[VOICE DEBUG] Action: Button PressOut (stopListening)');
             await Voice.stop();
+            console.log('[VOICE DEBUG] Voice.stop() completed successfully.');
+            // We rely on 'onSpeechEnd' for setting 'isListening' to false, but double guarantee here:
             setIsListening(false);
         } catch (e) {
-            console.error(e);
+            console.error('[VOICE DEBUG] Stop Listening Error:', e);
         }
     };
 
