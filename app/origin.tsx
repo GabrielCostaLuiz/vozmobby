@@ -18,7 +18,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter, useFocusEffect } from 'expo-router';
 import * as Location from 'expo-location';
 import * as Speech from 'expo-speech';
-import Voice, { SpeechResultsEvent, SpeechErrorEvent } from '@react-native-voice/voice';
+import Voice, { SpeechResultsEvent, SpeechErrorEvent } from '@dev-amirzubair/react-native-voice';
 import { useSettings } from '../src/contexts/SettingsContext';
 import OriginModal, { DestinationType } from '../src/components/OriginModal';
 import { useSQLiteContext } from 'expo-sqlite';
