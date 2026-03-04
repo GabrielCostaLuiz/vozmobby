@@ -54,12 +54,22 @@ export default function OriginScreen() {
             Animated.sequence([
                 Animated.timing(pulseAnim, {
                     toValue: 1,
-                    duration: 2500,
+                    duration: 2000,
                     useNativeDriver: true,
                 }),
             ])
         ).start();
     }, [pulseAnim]);
+
+    const pulseScale = pulseAnim.interpolate({
+        inputRange: [0, 0.7, 1],
+        outputRange: [1, 1.4, 1],
+    });
+
+    const pulseOpacity = pulseAnim.interpolate({
+        inputRange: [0, 0.7, 1],
+        outputRange: [0.3, 0, 0],
+    });
 
     // Initial greeting / focus effects
     useEffect(() => {
@@ -333,10 +343,6 @@ export default function OriginScreen() {
         }
     };
 
-    const pulseScale = pulseAnim.interpolate({
-        inputRange: [0, 0.5, 1],
-        outputRange: [1, 1.3, 1],
-    });
 
     return (
         <SafeAreaView className="flex-1 bg-background-dark">
@@ -470,29 +476,26 @@ export default function OriginScreen() {
                 </TouchableOpacity>
             </ScrollView>
 
-            {/* Bottom Fixed Container: Mic Trigger (Standardized) */}
-            <View className="absolute bottom-0 left-0 w-full h-[250px] z-20 pointer-events-none" pointerEvents="box-none">
+            {/* Bottom Fixed Container: Mic Trigger — idêntico ao da tela principal */}
+            <View className="absolute bottom-0 left-0 w-full h-[30%] min-h-[220px]" pointerEvents="box-none">
                 <LinearGradient
-                    colors={['transparent', 'rgba(0,0,0,0.85)', '#000000']}
-                    className="flex-1 w-full items-center justify-end pb-10"
+                    colors={['transparent', 'rgba(0,0,0,0.8)', '#000000']}
+                    className="flex-1 w-full items-center justify-end pb-12"
                     pointerEvents="box-none"
                 >
                     <View className="items-center justify-end" pointerEvents="box-none">
                         <View className="relative items-center justify-center w-[88px] h-[88px]">
-                            {isListening && (
-                                <Animated.View
-                                    className="absolute w-full h-full rounded-full bg-red-500 opacity-30"
-                                    style={{
-                                        transform: [{ scale: pulseScale }],
-                                    }}
-                                />
-                            )}
+                            <Animated.View
+                                className="absolute w-full h-full rounded-full bg-primary"
+                                style={{
+                                    transform: [{ scale: pulseScale }],
+                                    opacity: pulseOpacity,
+                                }}
+                            />
 
                             <TouchableOpacity
                                 activeOpacity={0.7}
-                                onPressIn={startListening}
-                                onPressOut={stopListening}
-                                className={`absolute items-center justify-center w-[88px] h-[88px] rounded-full z-10 active:scale-95 ${isListening ? 'bg-red-500' : 'bg-[#CCFF00]'}`}
+                                className={`absolute items-center justify-center w-[88px] h-[88px] rounded-full z-10 active:scale-90 ${isListening ? 'bg-red-500' : 'bg-[#CCFF00]'}`}
                                 style={{
                                     shadowColor: isListening ? '#EF4444' : '#CCFF00',
                                     shadowOffset: { width: 0, height: 0 },
@@ -500,17 +503,15 @@ export default function OriginScreen() {
                                     shadowRadius: 24,
                                     elevation: 15,
                                 }}
+                                onPressIn={startListening}
+                                onPressOut={stopListening}
                             >
-                                <MaterialIcons
-                                    name={isListening ? 'mic' : 'mic-none'}
-                                    size={48}
-                                    color={isListening ? 'white' : 'black'}
-                                />
+                                <MaterialIcons name="mic" size={48} color={isListening ? 'white' : 'black'} />
                             </TouchableOpacity>
                         </View>
 
-                        <Text className="mt-4 text-[#CCFF00] font-bold text-sm tracking-widest uppercase opacity-90 font-display">
-                            {isListening ? (spokenText || 'Escutando...') : 'Falar Favorito / GPS'}
+                        <Text className="mt-6 text-white text-lg font-bold tracking-widest uppercase opacity-80 font-display">
+                            {isListening ? (spokenText.length > 0 ? spokenText : 'Escutando...') : 'Segure para falar'}
                         </Text>
                     </View>
                 </LinearGradient>
