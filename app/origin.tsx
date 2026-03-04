@@ -90,20 +90,32 @@ export default function OriginScreen() {
         }
     };
 
-    // Voice Handlers
-    useEffect(() => {
+    // Voice Handlers — reinicializa ao receber foco
+    const setupVoiceListeners = useCallback(() => {
         Voice.onSpeechStart = () => setIsListening(true);
-        Voice.onSpeechEnd = () => setIsListening(false);
+        Voice.onSpeechEnd   = () => setIsListening(false);
         Voice.onSpeechResults = handleSpeechResults;
-        Voice.onSpeechError = (e: SpeechErrorEvent) => {
+        Voice.onSpeechError   = (e: SpeechErrorEvent) => {
             setIsListening(false);
-            console.error('Origin Voice Error:', e);
+            console.error('[VOICE origin] Erro:', e);
         };
-
-        return () => {
-            Voice.destroy().then(Voice.removeAllListeners);
+        Voice.onSpeechPartialResults = (e: any) => {
+            if (e.value?.length > 0) setSpokenText(e.value[0]);
         };
+        Voice.onSpeechVolumeChanged = (_e: any) => {};
     }, []);
+
+    useFocusEffect(
+        useCallback(() => {
+            setupVoiceListeners();
+            setIsListening(false);
+            setSpokenText('');
+
+            return () => {
+                Voice.destroy().then(Voice.removeAllListeners).catch(() => {});
+            };
+        }, [setupVoiceListeners])
+    );
 
     const handleSpeechResults = (e: SpeechResultsEvent) => {
         const phrases = e.value || [];
@@ -144,17 +156,19 @@ export default function OriginScreen() {
         try {
             setSpokenText('');
             await Voice.start('pt-BR');
-        } catch (e) {
-            console.error(e);
+        } catch (e: any) {
+            console.error('[VOICE origin] startListening falhou:', e);
+            setIsListening(false);
         }
     };
 
     const stopListening = async () => {
         try {
             await Voice.stop();
-            setIsListening(false);
         } catch (e) {
-            console.error(e);
+            console.error('[VOICE origin] stopListening falhou:', e);
+        } finally {
+            setIsListening(false);
         }
     };
 

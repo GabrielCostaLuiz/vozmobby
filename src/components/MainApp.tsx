@@ -159,48 +159,41 @@ export default function MainApp() {
 
     // Navegar para a tela "De Onde Vai Sair?" e passar o destino final nos parametros    };
 
-    /** Voice Listeners and Functions **/
-    useEffect(() => {
-        // Log initialization
-        console.log('[VOICE DEBUG] Initializing Voice Listeners');
+    /** Voice Listeners and Functions — reinicializa ao receber foco **/
+    const setupVoiceListeners = useCallback(() => {
+        console.log('[VOICE] Configurando listeners (foco na tela)');
 
-        Voice.onSpeechStart = (e: any) => {
-            console.log('[VOICE DEBUG] onSpeechStart CALLED!', e);
-            setIsListening(true);
-        };
+        Voice.onSpeechStart = () => setIsListening(true);
+        Voice.onSpeechEnd   = () => setIsListening(false);
 
-        Voice.onSpeechEnd = (e: any) => {
-            console.log('[VOICE DEBUG] onSpeechEnd CALLED!', e);
-            setIsListening(false);
-        };
-
-        Voice.onSpeechResults = (e: SpeechResultsEvent) => {
-            console.log('[VOICE DEBUG] onSpeechResults CALLED!', e);
-            handleSpeechResults(e);
-        };
+        Voice.onSpeechResults = (e: SpeechResultsEvent) => handleSpeechResults(e);
 
         Voice.onSpeechError = (e: SpeechErrorEvent) => {
-            console.log('[VOICE DEBUG] onSpeechError CALLED!', e);
+            console.error('[VOICE] Erro:', e);
             setIsListening(false);
         };
 
-        // Aggressive debug listeners
         Voice.onSpeechPartialResults = (e: any) => {
-            console.log('[VOICE DEBUG] onSpeechPartialResults CALLED! (partial text):', e.value);
-            if (e.value && e.value.length > 0) {
-                setSpokenText(e.value[0]);
-            }
+            if (e.value?.length > 0) setSpokenText(e.value[0]);
         };
 
-        Voice.onSpeechVolumeChanged = (e: any) => {
-            console.log('[VOICE DEBUG] MICROPHONE VOLUME CHANGED:', e.value);
-        };
+        Voice.onSpeechVolumeChanged = (_e: any) => {};
+    }, []);
 
-        return () => {
-            console.log('[VOICE DEBUG] Destroying Voice Listeners');
-            Voice.destroy().then(Voice.removeAllListeners);
-        };
-    }, [router]);
+    useFocusEffect(
+        useCallback(() => {
+            // Recria os listeners toda vez que a tela entra em foco
+            setupVoiceListeners();
+            setIsListening(false);
+            setSpokenText('');
+
+            return () => {
+                // Destrói o motor ao sair da tela para não conflitar com origin.tsx
+                console.log('[VOICE] Destruindo listeners (saindo da tela)');
+                Voice.destroy().then(Voice.removeAllListeners).catch(() => {});
+            };
+        }, [setupVoiceListeners])
+    );
 
     const handleSpeechResults = (e: SpeechResultsEvent) => {
         const phrases = e.value || [];
