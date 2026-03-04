@@ -477,7 +477,11 @@ export default function OriginScreen() {
             </ScrollView>
 
             {/* Bottom Fixed Container: Mic Trigger — idêntico ao da tela principal */}
-            <View className="absolute bottom-0 left-0 w-full h-[30%] min-h-[220px]" pointerEvents="box-none">
+            <View
+                className="absolute bottom-0 left-0 w-full h-[30%] min-h-[220px]"
+                pointerEvents="box-none"
+                style={{ zIndex: 100 }}
+            >
                 <LinearGradient
                     colors={['transparent', 'rgba(0,0,0,0.8)', '#000000']}
                     className="flex-1 w-full items-center justify-end pb-12"
