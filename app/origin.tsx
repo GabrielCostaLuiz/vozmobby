@@ -421,14 +421,14 @@ export default function OriginScreen() {
                 <TouchableOpacity
                     onPress={handleSelectCurrentLocation}
                     activeOpacity={0.8}
-                    className="w-full h-[140px] rounded-xl flex-row items-center px-6 border-2 border-primary bg-[#CCFF00]/10 overflow-hidden relative"
+                    className="w-full min-h-[120px] rounded-xl flex-row items-center px-6 py-6 border-2 border-primary bg-[#CCFF00]/10 overflow-hidden relative"
                 >
                     <Animated.View
                         className="absolute right-0 top-0 bottom-0 w-32 bg-primary opacity-10 rounded-full"
                         style={{ transform: [{ scale: pulseScale }] }}
                     />
 
-                    <View className="items-center justify-center w-16 h-16 rounded-full bg-primary mr-4 shadow-lg shadow-primary">
+                    <View className="items-center justify-center w-16 h-16 rounded-full bg-primary mr-4 shadow-lg shadow-primary" style={{ flexShrink: 0 }}>
                         {isSearching ? (
                             <ActivityIndicator color="black" size="large" />
                         ) : (
@@ -437,8 +437,16 @@ export default function OriginScreen() {
                     </View>
 
                     <View className="flex-col items-start flex-1">
-                        <Text className="text-2xl font-bold tracking-wide font-display text-primary">LOCALIZAÇÃO ATUAL</Text>
-                        <Text className="text-sm font-mono mt-1 text-gray-300">
+                        <Text
+                            className="text-2xl font-bold tracking-wide font-display text-primary"
+                            allowFontScaling={false}
+                            numberOfLines={1}
+                        >LOCALIZAÇÃO ATUAL</Text>
+                        <Text
+                            className="text-sm font-mono mt-1 text-gray-300"
+                            numberOfLines={2}
+                            ellipsizeMode="tail"
+                        >
                             {isSearching ? 'Obtendo GPS...' : currentStreetName}
                         </Text>
                     </View>
@@ -452,13 +460,23 @@ export default function OriginScreen() {
                         key={dest.id}
                         onPress={() => handleSelectCustomOrigin(dest.address)}
                         activeOpacity={0.8}
-                        className="w-full h-[80px] rounded-xl flex-row items-center px-6 mb-4 active:scale-[0.98]"
+                        className="w-full min-h-[72px] rounded-xl flex-row items-center px-6 mb-4 py-4 active:scale-[0.98]"
                         style={{ backgroundColor: dest.color }}
                     >
-                        <MaterialIcons name={dest.icon} size={28} color={dest.color === '#CCFF00' ? 'black' : 'white'} className="mr-4" />
+                        <MaterialIcons name={dest.icon} size={28} color={dest.color === '#CCFF00' ? 'black' : 'white'} style={{ marginRight: 12, flexShrink: 0 }} />
                         <View className="flex-col items-start flex-1">
-                            <Text className="text-xl font-bold tracking-wide font-display" style={{ color: dest.color === '#CCFF00' ? 'black' : 'white' }}>{dest.title}</Text>
-                            <Text className="text-xs font-mono mt-1" style={{ color: dest.color === '#CCFF00' ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.8)' }} numberOfLines={1}>{dest.address}</Text>
+                            <Text
+                                className="text-xl font-bold tracking-wide font-display"
+                                style={{ color: dest.color === '#CCFF00' ? 'black' : 'white' }}
+                                numberOfLines={1}
+                                ellipsizeMode="tail"
+                            >{dest.title}</Text>
+                            <Text
+                                className="text-xs font-mono mt-1"
+                                style={{ color: dest.color === '#CCFF00' ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.8)' }}
+                                numberOfLines={1}
+                                ellipsizeMode="tail"
+                            >{dest.address}</Text>
                         </View>
                     </TouchableOpacity>
                 ))}
@@ -466,11 +484,11 @@ export default function OriginScreen() {
                 <TouchableOpacity
                     onPress={() => setOriginModalVisible(true)}
                     activeOpacity={0.7}
-                    className="w-full h-[80px] border-2 border-dashed border-stroke rounded-xl flex-row items-center px-6 mb-4"
+                    className="w-full min-h-[72px] border-2 border-dashed border-stroke rounded-xl flex-row items-center px-6 mb-4 py-4"
                 >
-                    <MaterialIcons name="search" size={28} color="#9CA3AF" className="mr-4" />
+                    <MaterialIcons name="search" size={28} color="#9CA3AF" style={{ marginRight: 12, flexShrink: 0 }} />
                     <View>
-                        <Text className="font-bold text-gray-400 font-display text-lg">DIGITAR UM NOVO ENDEREÇO</Text>
+                        <Text className="font-bold text-gray-400 font-display text-lg" allowFontScaling={false}>DIGITAR UM NOVO ENDEREÇO</Text>
                         <Text className="text-gray-500 font-mono text-xs">Ex: Aeroporto Leste, Rua 2...</Text>
                     </View>
                 </TouchableOpacity>
@@ -514,7 +532,12 @@ export default function OriginScreen() {
                             </TouchableOpacity>
                         </View>
 
-                        <Text className="mt-6 text-white text-lg font-bold tracking-widest uppercase opacity-80 font-display">
+                        <Text
+                            className="mt-6 text-white text-lg font-bold tracking-widest uppercase opacity-80 font-display"
+                            allowFontScaling={false}
+                            numberOfLines={1}
+                            adjustsFontSizeToFit
+                        >
                             {isListening ? (spokenText.length > 0 ? spokenText : 'Escutando...') : 'Segure para falar'}
                         </Text>
                     </View>

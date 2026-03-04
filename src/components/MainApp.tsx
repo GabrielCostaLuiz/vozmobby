@@ -323,19 +323,29 @@ export default function MainApp() {
                         onLongPress={() => openEditModal(dest)}
                         delayLongPress={300}
                         activeOpacity={0.8}
-                        className="w-full h-[120px] rounded-xl flex-row items-center px-6 active:scale-[0.98]"
+                        className="w-full min-h-[100px] rounded-xl flex-row items-center px-6 py-5 active:scale-[0.98]"
                         style={{ backgroundColor: dest.color }}
                     >
-                        <View className="items-center justify-center w-16 h-16 rounded-full bg-black/20 mr-4">
+                        <View className="items-center justify-center w-16 h-16 rounded-full bg-black/20 mr-4" style={{ flexShrink: 0 }}>
                             <MaterialIcons name={dest.icon} size={36} color="white" />
                         </View>
                         <View className="flex-col items-start flex-1">
-                            <Text className="text-2xl font-bold tracking-wide font-display" style={{ color: dest.color === '#CCFF00' ? 'black' : 'white' }}>{dest.title}</Text>
-                            <Text className="text-sm font-mono mt-1" style={{ color: dest.color === '#CCFF00' ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.8)' }}>{dest.address}</Text>
+                            <Text
+                                className="text-2xl font-bold tracking-wide font-display"
+                                style={{ color: dest.color === '#CCFF00' ? 'black' : 'white' }}
+                                numberOfLines={2}
+                            >{dest.title}</Text>
+                            <Text
+                                className="text-sm font-mono mt-1"
+                                style={{ color: dest.color === '#CCFF00' ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.8)' }}
+                                numberOfLines={2}
+                                ellipsizeMode="tail"
+                            >{dest.address}</Text>
                         </View>
                         <TouchableOpacity
                             onPress={() => openEditModal(dest)}
                             className="p-2 ml-1 bg-black/20 rounded-full"
+                            style={{ flexShrink: 0 }}
                         >
                             <MaterialIcons name="edit" size={24} color={dest.color === '#CCFF00' ? 'black' : 'white'} />
                         </TouchableOpacity>
@@ -346,10 +356,10 @@ export default function MainApp() {
                 <TouchableOpacity
                     onPress={openNewModal}
                     activeOpacity={0.7}
-                    className="w-full h-[80px] border-2 border-dashed border-stroke rounded-xl flex-row items-center justify-center gap-3 active:border-white mb-6"
+                    className="w-full min-h-[64px] border-2 border-dashed border-stroke rounded-xl flex-row items-center justify-center gap-3 py-4 active:border-white mb-6"
                 >
                     <MaterialIcons name="add" size={24} color="#9CA3AF" />
-                    <Text className="font-bold text-gray-400 font-display">ADICIONAR OUTRO</Text>
+                    <Text className="font-bold text-gray-400 font-display" allowFontScaling={false}>ADICIONAR OUTRO</Text>
                 </TouchableOpacity>
             </ScrollView>
 
@@ -387,7 +397,12 @@ export default function MainApp() {
                             </TouchableOpacity>
                         </View>
 
-                        <Text className="mt-6 text-white text-lg font-bold tracking-widest uppercase opacity-80 font-display">
+                        <Text
+                            className="mt-6 text-white text-lg font-bold tracking-widest uppercase opacity-80 font-display"
+                            allowFontScaling={false}
+                            numberOfLines={1}
+                            adjustsFontSizeToFit
+                        >
                             {isListening ? (spokenText.length > 0 ? spokenText : 'Escutando...') : 'Segure para falar'}
                         </Text>
                     </View>
